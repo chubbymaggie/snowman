@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(Decompiler C CXX)
 
 enable_testing()
@@ -96,6 +96,16 @@ elseif(${MSVC})
 
     # Target Windows XP.
     add_definitions(-DWINVER=0x0501)
+endif()
+
+#
+# Sanitizers.
+#
+set(ENABLE_SANITIZER FALSE CACHE BOOL "Enable sanitizer")
+
+if(${ENABLE_SANITIZER})
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -fsanitize=leak -fsanitize=undefined")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=leak -fsanitize=undefined")
 endif()
 
 # Add source dir to includes.
